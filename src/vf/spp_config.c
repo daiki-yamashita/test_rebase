@@ -206,9 +206,8 @@ config_load_classifier_table(const json_t *obj,
 	/* classifier_table用オブジェクト取得 */
 	json_t *classifier_obj = json_path_get(obj, JSONPATH_CLASSIFIER_TABLE);
 	if (unlikely(classifier_obj == NULL)) {
-		RTE_LOG(ERR, APP, "Json object get failed. (path = %s)\n",
-				JSONPATH_CLASSIFIER_TABLE);
-		return -1;
+		RTE_LOG(INFO, APP, "No classifier table.\n");
+		return 0;
 	}
 
 	/* name取得 */
@@ -428,6 +427,7 @@ config_set_tx_port(enum spp_core_type type, json_t *obj,
 		struct spp_config_functions *functions,
 		struct spp_config_classifier_table *classifier_table)
 {
+	int cnt = 0;
 	struct spp_config_port_info *tmp_tx_port = NULL;
 	char if_str[SPP_CONFIG_STR_LEN];
 	if ((type == SPP_CONFIG_MERGE) || (type == SPP_CONFIG_FORWARD)) {
